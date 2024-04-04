@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "private-information-retrieval"
+version = "0.1.0"
+description = ""
+authors = ["Jean Dossa Tsimbazafy <jean.tsimbazafy@quantlane.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+phe = "^1.5.0"
+black = "^24.3.0"
+flake8 = "^7.0.0"
+mypy = "^1.9.0"
+matplotlib = "^3.8.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
