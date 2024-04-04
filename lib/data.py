@@ -8,4 +8,7 @@ def make_dataset(
     range_max: int = sys.maxsize,
     random_instance: random.Random = random.Random(),
 ) -> list[tuple[int, int]]:
-    return [(seq_id+1, random_instance.randint(range_min, range_max)) for seq_id in range(size)]
+    return [
+        (seq_id + 1, random_instance.randint(range_min, range_max))
+        for seq_id in range(size)
+    ]

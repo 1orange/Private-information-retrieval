@@ -8,7 +8,6 @@ from lib.data import make_dataset
 from lib.server import Server
 
 
-
 def sample():
     """Sample code snippet to prove that homomorphic addition and homomorphic scalar multiplication."""
 
@@ -40,15 +39,15 @@ def sample():
 def main():
 
     DATASET_SIZE = 10
-    random_instance = random.Random(x = 10)
+    random_instance = random.Random(x=10)
 
     # Create server
     server = Server(
-        data = make_dataset(
-            size = DATASET_SIZE,
-            range_min = 1,
-            range_max = 50,
-            random_instance = random_instance
+        data=make_dataset(
+            size=DATASET_SIZE,
+            range_min=1,
+            range_max=50,
+            random_instance=random_instance,
         )
     )
 
@@ -56,20 +55,17 @@ def main():
     client = Client()
 
     # Create query and send it to the server
-    query = client.create_query(
-        dataset_size = DATASET_SIZE,
-        queried_id = 4
-    )
+    query = client.create_query(dataset_size=DATASET_SIZE, queried_id=4)
 
     result = server.fetch_data(query)
 
     print(server.data)
     print(client.decrypt_query(result))
 
+
 if __name__ == "__main__":
 
     start = timeit.default_timer()
     print("The start time is :", start)
     main()
-    print("The difference of time is :",
-          timeit.default_timer() - start)
+    print("The difference of time is :", timeit.default_timer() - start)
