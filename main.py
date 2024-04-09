@@ -12,9 +12,10 @@ from lib.server import Server
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    format="%(asctime)s - %(name)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
+
 
 async def _simulate(
     logger: Logger,
@@ -71,7 +72,12 @@ async def _simulate(
     )
 
 
-async def _run_test(logger: Logger, DATASET_SIZE: int = 10, RANDOM_SEED: int = 1, number_of_tries: int = 1):
+async def _run_test(
+    logger: Logger,
+    DATASET_SIZE: int = 10,
+    RANDOM_SEED: int = 1,
+    number_of_tries: int = 1,
+):
     random_ = random.Random(RANDOM_SEED)
 
     total_encrypt_query_time = 0
@@ -87,9 +93,11 @@ async def _run_test(logger: Logger, DATASET_SIZE: int = 10, RANDOM_SEED: int = 1
 
     results = await asyncio.gather(*tasks)
 
-    for ((encrypt_query_time, encrypt_query_size),
-         (server_query_time, server_query_size),
-         (decrypt_time, decrypt_size)) in results:
+    for (
+        (encrypt_query_time, encrypt_query_size),
+        (server_query_time, server_query_size),
+        (decrypt_time, decrypt_size),
+    ) in results:
         total_encrypt_query_time += encrypt_query_time
         total_encrypt_query_size += encrypt_query_size
         total_server_query_time += server_query_time
@@ -107,18 +115,24 @@ async def _run_test(logger: Logger, DATASET_SIZE: int = 10, RANDOM_SEED: int = 1
         f"Average decrypt time: {total_decrypt_time / number_of_tries:.10f} sec"
     )
 
+
 async def main():
     logger = logging.getLogger(__name__)
 
     logger.info("dataset of 1_000; 10 tries")
-    await _run_test(logger=logger, DATASET_SIZE = 1_000, RANDOM_SEED = 10, number_of_tries = 10)
+    await _run_test(
+        logger=logger, DATASET_SIZE=1_000, RANDOM_SEED=10, number_of_tries=10
+    )
 
     logger.info("dataset of 10_000; 10 tries")
-    await _run_test(logger=logger, DATASET_SIZE = 10_000, RANDOM_SEED = 15, number_of_tries = 10)
+    await _run_test(
+        logger=logger, DATASET_SIZE=10_000, RANDOM_SEED=15, number_of_tries=10
+    )
 
     logger.info("dataset of 100_000; 10 tries")
-    await _run_test(logger=logger, DATASET_SIZE = 100_000, RANDOM_SEED = 20, number_of_tries = 10)
-
+    await _run_test(
+        logger=logger, DATASET_SIZE=100_000, RANDOM_SEED=20, number_of_tries=10
+    )
 
 
 if __name__ == "__main__":
