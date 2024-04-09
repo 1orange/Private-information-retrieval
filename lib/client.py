@@ -4,6 +4,7 @@ from typing import Optional
 import phe
 from phe import paillier
 
+from lib.data import LinkedList
 from lib.types import QUERY_RESULT, ROW
 
 
@@ -18,24 +19,26 @@ class Client:
 
         self.public_key, self.__private_key = paillier.generate_paillier_keypair()
 
-    def create_query(
-        self, queried_id: int, dataset_size: int = 10
-    ) -> list[Optional[phe.EncryptedNumber]]:
+    def create_query(self, queried_id: int, dataset_size: int = 10) -> LinkedList:
         """
         Create a list of encrypted numbers, where queried_id is marked as 1 and others are 0s.
         Such a list is sent in to the server to digest.
         """
 
-        return [
-            self.public_key.encrypt(num)
-            for num in [
-                1 if index == queried_id else 0 for index in range(1, dataset_size + 1)
-            ]
-        ]
+        query = LinkedList()
 
-    def decrypt_query(self, query_result: QUERY_RESULT) -> ROW:
-        for seq_id, content in query_result:
-            if (decrypted_id := self.__private_key.decrypt(seq_id)) == 0:
+        encrypted_null = self.public_key.encrypt(0)
+        encrypted_one = self.public_key.encrypt(1)
+
+        for index in range(1, dataset_size + 1):
+            if index == queried_id:
+                query.add(encrypted_one)
                 continue
 
-            return decrypted_id, self.__private_key.decrypt(content)
+            query.add(encrypted_null)
+
+        return query
+
+    def decrypt_query(self, query_result: QUERY_RESULT) -> ROW:
+        seq_id, content = query_result
+        return self.__private_key.decrypt(seq_id), self.__private_key.decrypt(content)
