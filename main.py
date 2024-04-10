@@ -119,9 +119,11 @@ async def _run_test(
 async def main():
     logger = logging.getLogger(__name__)
 
+    logger.level = logging.DEBUG
+
     logger.info("dataset of 1_000; 10 tries")
     await _run_test(
-        logger=logger, DATASET_SIZE=1_000, RANDOM_SEED=10, number_of_tries=10
+        logger=logger, DATASET_SIZE=1_000, RANDOM_SEED=10, number_of_tries=1
     )
 
     logger.info("dataset of 10_000; 10 tries")

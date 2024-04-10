@@ -25,17 +25,16 @@ class Client:
         Such a list is sent in to the server to digest.
         """
 
-        query = LinkedList()
+        # query = LinkedList()
 
-        encrypted_null = self.public_key.encrypt(0)
-        encrypted_one = self.public_key.encrypt(1)
+        query = list()
 
         for index in range(1, dataset_size + 1):
             if index == queried_id:
-                query.add(encrypted_one)
+                query.append(self.public_key.encrypt(1))
                 continue
 
-            query.add(encrypted_null)
+            query.append(self.public_key.encrypt(0))
 
         return query
 
