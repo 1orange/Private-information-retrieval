@@ -4,7 +4,6 @@ from typing import Optional
 import phe
 from phe import paillier
 
-from lib.data import LinkedList
 from lib.types import QUERY_RESULT, ROW
 
 
@@ -19,13 +18,11 @@ class Client:
 
         self.public_key, self.__private_key = paillier.generate_paillier_keypair()
 
-    def create_query(self, queried_id: int, dataset_size: int = 10) -> LinkedList:
+    def create_query(self, queried_id: int, dataset_size: int = 10) -> QUERY_RESULT:
         """
         Create a list of encrypted numbers, where queried_id is marked as 1 and others are 0s.
         Such a list is sent in to the server to digest.
         """
-
-        # query = LinkedList()
 
         query = list()
 
